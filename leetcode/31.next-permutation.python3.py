@@ -4,21 +4,18 @@ class Solution:
         :type nums: List[int]
         :rtype: void Do not return anything, modify nums in-place instead.
         """
-        t = 0
-        for i in range(len(nums) - 1, 0, -1):
-            if nums[i-1] < nums[i]:
-                t = i
-                break
+        t = len(nums) - 2
+        while t >= 0 and nums[t] >= nums[t+1]:
+            t -= 1
 
         # if everything is increasing order, it is maximum value
-        if t == 0:
+        if t == -1:
             nums.reverse()
             return
 
-        min_i = t
-        for i in range(t, len(nums)):
-            if nums[i] > nums[t-1] and nums[i] <= nums[min_i]:
-                min_i = i
-        nums[min_i], nums[t-1] = nums[t-1], nums[min_i]
+        for i in range(len(nums) - 1, t, -1):
+            if nums[i] > nums[t]:
+                nums[i], nums[t] = nums[t], nums[i]
+                break
 
-        nums[t:] = reversed(nums[t:])
+        nums[t+1:] = reversed(nums[t+1:])
