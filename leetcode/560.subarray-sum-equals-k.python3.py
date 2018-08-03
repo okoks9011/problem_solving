@@ -6,11 +6,13 @@ class Solution:
         :rtype: int
         """
         counts = 0
-        for s in range(len(nums)):
-            acc = 0
-            for i in range(s, len(nums)):
-                acc += nums[i]
-                if acc == k:
-                    counts += 1
+        acc = 0
+        acc_dic = {}
+        acc_dic[0] = 1
+
+        for n in nums:
+            acc += n
+            counts += acc_dic.get(acc - k, 0)
+            acc_dic[acc] = acc_dic.get(acc, 0) + 1
 
         return counts
