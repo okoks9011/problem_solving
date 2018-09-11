@@ -1,21 +1,26 @@
 def picnic_pick(chosen, remain, candi):
-    if remain == 0:
-        return 1
     if not candi:
         return 0
+    c1, c2 = candi[0]
+    if c1 in chosen or c2 in chosen:
+        return 0
+    if remain == 1:
+        return 1
+
+    chosen.add(c1)
+    chosen.add(c2)
     result = 0
-    for i in range(len(candi)):
-        c1, c2 = candi[i]
-        if (c1 not in chosen) and (c2 not in chosen):
-            chosen.add(c1)
-            chosen.add(c2)
-            result += picnic_pick(chosen, remain-1, candi[i+1:])
-            chosen.remove(c1)
-            chosen.remove(c2)
+    for i in range(1, len(candi)):
+        result += picnic_pick(chosen, remain-1, candi[i:])
+    chosen.remove(c2)
+    chosen.remove(c1)
     return result
 
 def picnic(n, m, pairs):
-    return picnic_pick(set(), n//2, pairs)
+    result = 0
+    for i in range(len(pairs)):
+        result += picnic_pick(set(), n//2, pairs[i:])
+    return result
 
 def main():
     c = int(input())
