@@ -29,7 +29,6 @@ def find_first_white(board):
 def count_boardcover(board, w_cnt):
     if w_cnt == 0:
         return 1
-    h, w = len(board), len(board[0])
     i, j = find_first_white(board)
     result = 0
     for block in blocks:
