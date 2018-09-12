@@ -1,3 +1,6 @@
+import sys
+
+INF = 9999
 switch = [
     (0, 1, 2),  # 0
     (3, 7, 9, 11),
@@ -11,20 +14,18 @@ switch = [
     (3, 4, 5, 9, 13),
 ]
 
-def press_switch(clocks, cur):
-    for c in switch[cur]:
-        clocks[c] += 3
-
 def clocksync(clocks, cur, cnt):
     if cur == 10:
-        if all(c % 12 == 0 for c in clocks):
-            return cnt
-        else:
-            return float('inf')
-    min_cnt = float('inf')
+        for c in clocks:
+            if c % 12:
+                return INF
+        return cnt
+    min_cnt = INF
     for i in range(4):
         min_cnt = min(min_cnt, clocksync(clocks, cur+1, cnt))
-        press_switch(clocks, cur)
+        # press switch
+        for c in switch[cur]:
+            clocks[c] += 3
         cnt += 1
     return min_cnt
 
@@ -33,9 +34,11 @@ def main():
     for _ in range(c):
         clocks = [int(s) for s in input().split()]
         cnt = clocksync(clocks, 0, 0)
-        if cnt == float('inf'):
+        if cnt == INF:
             print('-1')
         else:
             print(cnt)
 
+if sys.version_info.major == '2':
+    input = raw_input
 main()
