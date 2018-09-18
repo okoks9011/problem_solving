@@ -1,30 +1,17 @@
-def serial_qt(qt):
-    if type(qt) == type([]):
-        result = ['x']
-        result.extend(serial_qt(q) for q in qt)
-        return ''.join(result)
-    else:
-        return qt
+def reverse(qt_iter):
+    c = next(qt_iter)
+    if c == 'b' or c == 'w':
+        return c
 
-def reverse_qt(qt):
-    if type(qt) == type([]):
-        return list(map(reverse_qt, [qt[2], qt[3], qt[0], qt[1]]))
-    else:
-        return qt
-
-def parse_qt(qt_iter):
-    c = next(qt_iter, None)
-    if c == 'x':
-        result = [parse_qt(qt_iter) for _ in range(4)]
-    else:
-        result = c
-    return result
+    sub = []
+    for _ in range(4):
+        sub.append(reverse(qt_iter))
+    return ''.join(['x', sub[2], sub[3], sub[0], sub[1]])
 
 def main():
     c = int(input().strip())
     for _ in range(c):
         qt_raw = input().strip()
-        qt = parse_qt(iter(qt_raw))
-        print(serial_qt(reverse_qt(qt)))
+        print(reverse(iter(qt_raw)))
 
 main()
