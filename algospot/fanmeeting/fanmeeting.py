@@ -10,7 +10,7 @@ def multiply(a, b):
 def addition(a, b):
     if len(a) > len(b):
         a, b = b, a
-    result = b.copy()
+    result = list(b)
     for i in range(len(a)):
         result[i] += a[i]
     return result
@@ -29,7 +29,7 @@ def karatsuba(a, b):
         return []
     if len(a) > len(b):
         a, b = b, a
-    if len(b) <= 10:
+    if len(b) <= 200:
         return multiply(a, b)
 
     half = len(b) // 2
@@ -47,7 +47,7 @@ def karatsuba(a, b):
 
 
 def fanmeeting_multiply(h, f):
-    result = multiply(h, f)
+    result = karatsuba(h, f)
     return sum(1 for r in result[len(h)-1:len(f)] if not r)
 
 def main():
@@ -67,6 +67,7 @@ def main():
                 f.append(0)
         print(fanmeeting_multiply(h, f))
 
-with open('input_file_2') as f:
-    sys.stdin = f
-    main()
+if sys.version_info.major == 2:
+    input = raw_input
+    range = xrange
+main()
