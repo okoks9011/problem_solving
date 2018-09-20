@@ -39,6 +39,6 @@ def main():
         else:
             print(cnt)
 
-if sys.version_info.major == '2':
+if sys.version_info.major == 2:
     input = raw_input
 main()
