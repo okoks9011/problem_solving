@@ -47,7 +47,7 @@ def karatsuba(a, b):
 
 
 def fanmeeting_multiply(h, f):
-    result = karatsuba(h, f)
+    result = multiply(h, f)
     return sum(1 for r in result[len(h)-1:len(f)] if not r)
 
 def main():
