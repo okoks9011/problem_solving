@@ -4,24 +4,19 @@ def wild_match(p, t, pi, ti):
     global d
     if (pi, ti) in d:
         return d[(pi, ti)]
-
     result = False
-    if pi >= len(p) and ti >= len(t):
-        result = True
-    elif pi >= len(p):
-        pass
-    elif ti >= len(t):
-        if p[pi] == '*':
-            result = wild_match(p, t, pi+1, ti)
-    else:
-        if p[pi] == '*':
-            result = (wild_match(p, t, pi+1, ti) or
-                      wild_match(p, t, pi, ti+1))
-        elif p[pi] == '?':
+
+    if pi < len(p) and ti < len(t):
+        if p[pi] == '?' or p[pi] == t[ti]:
             result = wild_match(p, t, pi+1, ti+1)
-        else:
-            result = ((p[pi] == t[ti]) and
-                      wild_match(p, t, pi+1, ti+1))
+
+    if pi == len(p):
+        result = ti == len(t)
+    elif p[pi] == '*':
+        result = wild_match(p, t, pi+1, ti)
+        if ti < len(t):
+            result = result or wild_match(p, t, pi, ti+1)
+
     d[(pi, ti)] = result
     return result
 
