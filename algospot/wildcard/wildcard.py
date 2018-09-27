@@ -27,10 +27,14 @@ def wild_match(p, t, pi, ti):
 
 def wild_matches(p, ts):
     global d
+    result = []
     for t in ts:
         d.clear()
         if wild_match(p, t, 0, 0):
-            print(t)
+            result.append(t)
+    result.sort()
+    for r in result:
+        print(r)
 
 def main():
     c = int(input().strip())
