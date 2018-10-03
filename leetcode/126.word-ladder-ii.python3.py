@@ -1,7 +1,16 @@
 from collections import namedtuple
 from collections import deque
 
-Triple = namedtuple('Triple', ['word', 'history'])
+def gen_all_path(total, beginWord, endWord):
+    if beginWord == endWord:
+        return [[beginWord]]
+    result = []
+    for e in total[endWord]:
+        e_paths = gen_all_path(total, beginWord, e)
+        for e_path in e_paths:
+            e_path.append(endWord)
+            result.append(e_path)
+    return result
 
 def adjcent_word(A, B):
     return 1 == sum(1 for a, b in zip(A,B) if a != b)
@@ -14,24 +23,24 @@ class Solution:
         :type wordList: List[str]
         :rtype: List[List[str]]
         """
-        s = Triple(beginWord, [beginWord])
         candi = set(wordList)
-        cur_q = deque()
-        next_q = deque()
-        cur_q.append(s)
-        while cur_q:
-            if any(map(lambda x: x.word == endWord, cur_q)):
-                target = filter(lambda x: x.word == endWord, cur_q)
-                return list(map(lambda x: x.history, target))
-            while cur_q:
-                t = cur_q.popleft()
+        cur = {}
+        nextt = {}
+        total = {}
+        cur[beginWord] = None
+        while cur:
+            if endWord in cur:
+                 return gen_all_path(total, beginWord, endWord)
+            for t_word in cur:
                 for c_word in candi:
-                    if adjcent_word(t.word, c_word):
-                        new_history = t.history.copy()
-                        new_history.append(c_word)
-                        next_q.append(Triple(c_word, new_history))
-            for i in next_q:
-                if i.word in candi:
-                    candi.remove(i.word)
-            cur_q, next_q = next_q, cur_q
+                    if adjcent_word(t_word, c_word):
+                        if c_word not in nextt:
+                            nextt[c_word] = []
+                        nextt[c_word].append(t_word)
+            for i_word in nextt:
+                if i_word in candi:
+                    candi.remove(i_word)
+            total.update(nextt)
+            cur = nextt
+            nextt = {}
         return []
