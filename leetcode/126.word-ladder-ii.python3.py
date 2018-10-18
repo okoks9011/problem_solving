@@ -26,9 +26,7 @@ class Solution:
                         if c_word not in nextt:
                             nextt[c_word] = []
                         nextt[c_word].extend(t_path + [c_word] for t_path in cur[t_word])
-            for i_word in nextt:
-                if i_word in candi:
-                    candi.remove(i_word)
+            candi -= set(nextt)
             cur = nextt
             nextt = {}
         return []
