@@ -1,11 +1,11 @@
 import sys
 
-d = {}
+d = [[None] * 101 for _ in range(101)]
 
 def jlis_rec(A, B, ai, bi):
     global d
-    if (ai, bi) in d:
-        return d[(ai, bi)]
+    if d[ai+1][bi+1] is not None:
+        return d[ai+1][bi+1]
 
     result = 2
     av = A[ai] if ai != -1 else float('-inf')
@@ -18,13 +18,16 @@ def jlis_rec(A, B, ai, bi):
         if B[bk] > last:
             result = max(result, jlis_rec(A, B, ai, bk)+1)
 
-    d[(ai, bi)] = result
+    d[ai+1][bi+1] = result
     return result
 
 def jlis(A, B):
     global d
     print(jlis_rec(A, B, -1, -1)-2)
-    d.clear()
+
+    for i in range(len(d)):
+        for j in range(len(d[i])):
+            d[i][j] = None
 
 def main():
     c = int(input().strip())
@@ -36,4 +39,5 @@ def main():
 
 if sys.version_info.major == 2:
     input = raw_input
+
 main()
