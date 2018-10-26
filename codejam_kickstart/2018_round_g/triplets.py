@@ -1,7 +1,9 @@
 def mixture(x, y):
     if x == 0 and y == 0:
         return set()
-    result = {x * y}
+    result = set()
+    if x * y <= 200000:
+        result.add(x * y)
     if x != 0 and y % x == 0:
         result.add(y // x)
     if y != 0 and x % y == 0:
