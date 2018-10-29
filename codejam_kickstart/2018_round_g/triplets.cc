@@ -21,7 +21,7 @@ int triplets_complete_search(int n, const vector<long long>& A) {
 long long triplets(int n, vector<long long>* A_ptr) {
     auto& A = *A_ptr;
     sort(A.begin(), A.end());
-    long long zeros = 0;
+    int zeros = 0;
     while (zeros < A.size() && A[zeros] == 0)
         ++zeros;
 
@@ -36,9 +36,9 @@ long long triplets(int n, vector<long long>* A_ptr) {
     }
 
     if (zeros >= 3)
-        result += zeros * (zeros - 1) * (zeros - 2) / 6;
+        result += 1LL * zeros * (zeros - 1) * (zeros - 2) / 6;
     if (zeros >= 2)
-        result += (zeros * (zeros - 1) / 2) * (n - zeros);
+        result += (1LL * zeros * (zeros - 1) / 2) * (n - zeros);
     return result;
 }
 

@@ -1,4 +1,20 @@
 from sortedcontainers import SortedDict
+from collections import namedtuple
+
+
+Interval = namedtuple("Interval", ["idx", "start", "dups"])
+
+
+def pick_score(ki, ranks):
+    i = 0
+    while i < len(ranks) and ki >= ranks[i].idx:
+        i += 1
+    i -= 1
+    r = ranks[i]
+    if r.dups != 0:
+        return r.start - (ki - r.idx) // r.dups
+    else:
+        return 0
 
 
 def combine(n, q, x_iter, y_iter, z_iter):
@@ -8,8 +24,8 @@ def combine(n, q, x_iter, y_iter, z_iter):
         li = min(xi, yi) + 1
         ri = max(xi, yi) + 1
         d[ri] = d.get(ri, 0) + 1
-        d[li+1] = d.get(li+1, 0) - 1
-    for k in d.keys():
+        d[li-1] = d.get(li-1, 0) - 1
+    for k in list(d.keys()):
         if d[k] == 0:
             d.pop(k, None)
     acc = 0
@@ -17,10 +33,23 @@ def combine(n, q, x_iter, y_iter, z_iter):
         d[k] += acc
         acc = d[k]
 
-    for _ in range(q):
+    keys = list(reversed(d.keys()))
+    ranks = []
+    acc = 1
+    for i, k in enumerate(keys):
+        start = keys[i]
+        dups = d[start]
+        ranks.append(Interval(acc, start, dups))
+        if i + 1 < len(keys):
+            count = start - keys[i+1]
+            acc += count * dups
+
+    result = 0
+    for i in range(1, q+1):
         zi = next(z_iter)
         ki = zi + 1
-    return 0
+        result += i * pick_score(ki, ranks)
+    return result
 
 
 def gen_iter(v1, v2, a, b, c, m, n):
