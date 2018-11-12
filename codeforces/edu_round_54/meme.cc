@@ -13,6 +13,7 @@ using std::setprecision;
 int main() {
     int t;
     cin >> t;
+    cout << setprecision(15);
     for (int ti = 0; ti < t; ++ti) {
         int d;
         cin >> d;
@@ -25,7 +26,6 @@ int main() {
         double diff = sqrt(check);
         double a = (d + diff) / 2;
         double b = (d - diff) / 2;
-        cout << "Y " << setprecision(15) << a << " ";
-        cout << b << endl;
+        cout << "Y " << a << " " << b << endl;
     }
 }
