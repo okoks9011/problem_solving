@@ -58,10 +58,10 @@ int main() {
     acc = 0;
     for (auto& c : b) {
         acc += c;
-        if (acc < -1)
-            break;
         if (c == -1)
             result += 1;
+        if (acc <= -1)
+            break;
     }
     cout << result << endl;
 }
