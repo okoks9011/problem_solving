@@ -28,7 +28,7 @@ int main() {
 
     int min_cost = numeric_limits<int>::max();
     int min_t = 0;
-    for (int i = 1; i <= 1000; ++i) {
+    for (int i = 1; i <= 100; ++i) {
         int cur_cost = CalCost(a, i);
         if (cur_cost < min_cost) {
             min_cost = cur_cost;
