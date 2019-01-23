@@ -37,9 +37,11 @@ int main() {
                 continue;
 
             --goal[j];
-            if (CalNeed(cnt, goal) + (si != j) == remain) {
+            if (si == j)
+                break;
+            if (CalNeed(cnt, goal) < remain) {
                 s[i] = j + '0';
-                remain -= (si != j);
+                --remain;
                 break;
             }
             ++goal[j];
