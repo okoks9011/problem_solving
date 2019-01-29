@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <limits>
 
 using namespace std;
 
@@ -10,11 +9,11 @@ int FindMaxLevel(string& s, int k, char c) {
     for (int i = 0; i < s.size(); ++i) {
         if (s[i] == c) {
             ++cnt;
-            if (cnt >= k) {
-                ++x;
-                cnt = 0;
-            }
         } else {
+            cnt = 0;
+        }
+        if (cnt >= k) {
+            ++x;
             cnt = 0;
         }
     }
