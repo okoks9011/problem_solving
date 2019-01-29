@@ -10,9 +10,7 @@ class InterestingDigits {
         int maximum = base * base * base * base;
         for (int i = 2; i < base; ++i) {
             bool flag = true;
-            for (int j = 1; j < maximum; ++j) {
-                if (j % i != 0)
-                    continue;
+            for (int j = i; j < maximum; j += i) {
                 int tmp = j;
                 int sum = 0;
                 while (tmp) {
