@@ -1,25 +1,22 @@
 #include <iostream>
-#include <deque>
 #include <vector>
 #include <string>
 #include <cctype>
 
 using namespace std;
 
-void Insert(vector<int>* row_ptr, char si) {
+void Insert(vector<int>* row_ptr, int base, char si) {
     char n = -1;
     if (isdigit(si))
         n = si - '0';
     else
         n = si - 'A' + 10;
 
-    deque<int> tmp;
+    auto& row = *row_ptr;
     for (int i = 0; i < 4; ++i) {
-        tmp.emplace_front(n & 0x1);
+        row[base+3-i] = n & 0x1;
         n >>= 1;
     }
-    auto& row = *row_ptr;
-    row.insert(row.end(), tmp.begin(), tmp.end());
 }
 
 int gcd(int a, int b) {
@@ -38,12 +35,13 @@ int main() {
     int n;
     cin >> n;
 
-    vector<vector<int>> grid(n);
+    vector<vector<int>> grid(n, vector<int>(n));
     for (int i = 0; i < n; ++i) {
         string s;
         cin >> s;
-        for (auto& si : s)
-            Insert(&grid[i], si);
+        for (int j = 0; j < n/4; ++j) {
+            Insert(&grid[i], 4*j, s[j]);
+        }
     }
 
     int x = n;
