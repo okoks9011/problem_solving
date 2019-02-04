@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -7,49 +8,27 @@ int main() {
     cin >> n >> l >> r;
 
     --l;
-    int l_multi3 = l / 3;
-    int l_multi3_1 = l_multi3;
-    int l_multi3_2 = l_multi3;
-    if (l % 3 == 2) {
-        ++l_multi3_1;
-        ++l_multi3_2;
-    } else if (l % 3 == 1) {
-        ++l_multi3_1;
-    }
+    vector<long long> mod3(3);
+    mod3[0] = (r+3)/3 - (l+3)/3;
+    mod3[1] = (r+2)/3 - (l+2)/3;
+    mod3[2] = (r+1)/3 - (l+1)/3;
 
-    int r_multi3 = r / 3;
-    int r_multi3_1 = r_multi3;
-    int r_multi3_2 = r_multi3;
-    if (r % 3 == 2) {
-        ++r_multi3_1;
-        ++r_multi3_2;
-    } else if (r % 3 == 1) {
-        ++r_multi3_1;
-    }
+    vector<vector<long long>> dp(n+1, vector<long long>(3));
+    dp[1][0] = mod3[0];
+    dp[1][1] = mod3[1];
+    dp[1][2] = mod3[2];
 
-    int mod3_0 = r_multi3 - l_multi3;
-    int mod3_1 = r_multi3_1 - l_multi3_1;
-    int mod3_2 = r_multi3_2 - l_multi3_2;
-
-    long long r0 = mod3_0;
-    long long r1 = mod3_1;
-    long long r2 = mod3_2;
     const int m = 1000000007;
     for (int i = 1; i < n; ++i) {
-        long long next_r0 = (r0 * mod3_0) % m;
-        next_r0 = (next_r0 + (r1 * mod3_2) % m) % m;
-        next_r0 = (next_r0 + (r2 * mod3_1) % m) % m;
-        long long next_r1 = (r0 * mod3_1) % m;
-        next_r1 = (next_r1 + (r1 * mod3_0) % m) % m;
-        next_r1 = (next_r1 + (r2 * mod3_2) % m) % m;
-        long long next_r2 = (r0 * mod3_2) % m;
-        next_r2 = (next_r2 + (r1 * mod3_1) % m) % m;
-        next_r2 = (next_r2 + (r2 * mod3_0) % m) % m;
-
-        r0 = next_r0;
-        r1 = next_r1;
-        r2 = next_r2;
+        for (int j = 0; j < 3; ++j) {
+            if (dp[i][j] == 0)
+                continue;
+            for (int k = 0; k < 3; ++k) {
+                dp[i+1][(j+k)%3] += dp[i][j] * mod3[k];
+                dp[i+1][(j+k)%3] %= m;
+            }
+        }
     }
 
-    cout << r0 << endl;;
+    cout << dp[n][0] << endl;
 }
