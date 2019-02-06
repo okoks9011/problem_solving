@@ -12,22 +12,18 @@ int main() {
     cin >> n >> m;
 
     vector<int> freq(n+1);
-    int distinct = 0;
+    vector<int> round(m+1);
+    int next = 1;
     for (int i = 0; i < m; ++i) {
         int t;
         cin >> t;
 
-        if (freq[t] == 0)
-            ++distinct;
         ++freq[t];
+        ++round[freq[t]];
 
-        if (distinct == n) {
-            for (int j = 1; j <= n; ++j) {
-                --freq[j];
-                if (freq[j] == 0)
-                    --distinct;
-            }
+        if (round[next] == n) {
             cout << "1";
+            ++next;
         } else {
             cout << "0";
         }
