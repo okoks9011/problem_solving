@@ -1,50 +1,20 @@
 #include <iostream>
 #include <vector>
+#include <deque>
 #include <string>
 #include <algorithm>
 #include <utility>
+#include <cctype>
 
 using namespace std;
 
-void MakeMove(vector<string>* blocks_ptr, int i, int y, int x, int step) {
-    auto& blocks = *blocks_ptr;
-    if (y < 0 || blocks.size() <= y)
-        return;
-    if (x < 0 || blocks[y].size() <= x)
-        return;
-    if (blocks[y][x] != '.')
-        return;
-
-    blocks[y][x] = i+'0';
-    if (step <= 1)
-        return;
-
-    vector<pair<int, int>> moves{{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
-    for (auto& p : moves) {
-        MakeMove(blocks_ptr, i, y+p.first, x+p.second, step-1);
-    }
-}
-
-int Expand(vector<string>* blocks_ptr, int i, int si) {
-    auto& blocks = *blocks_ptr;
-    cout << "si: " << si << endl;
-
-    for (int yi = 0; yi < blocks.size(); ++yi) {
-        for (int xi = 0; xi < blocks[yi].size(); ++xi) {
-            if (blocks[yi][xi] == i+'0') {
-                MakeMove(blocks_ptr, i, yi-1, xi, si);
-                MakeMove(blocks_ptr, i, yi, xi+1, si);
-                MakeMove(blocks_ptr, i, yi+1, xi, si);
-                MakeMove(blocks_ptr, i, yi, xi-1, si);
-            }
-        }
-    }
-
-    int cnt = 0;
-    for (auto& row : blocks)
-        cnt += count(row.begin(), row.end(), i+'0');
-    return cnt;
-}
+struct Elem {
+    int r = 0;
+    int c = 0;
+    int s = 0;
+    Elem() = default;
+    Elem(int row, int column, int step) : r(row), c(column), s(step) {}
+};
 
 int main() {
     int n, m, p;
@@ -54,36 +24,54 @@ int main() {
     for (int i = 1; i <= p; ++i)
         cin >> s[i];
 
-    vector<string> blocks(n);
+    vector<string> grid(n);
     for (int i = 0; i < n; ++i)
-        cin >> blocks[i];
+        cin >> grid[i];
 
-    vector<int> cnt(p+1);
-    for (int i = 1; i <= p; ++i) {
-        for (auto& row : blocks)
-            cnt[i] += count(row.begin(), row.end(), i+'0');
+    vector<deque<Elem>> cur_q(p+1);
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < m; ++j) {
+            if (isdigit(grid[i][j]))
+                cur_q[grid[i][j]-'0'].emplace_back(i, j, 0);
+        }
     }
 
-    bool changed = false;
+    vector<pair<int, int>> moves{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+    bool cont = false;
     do {
-        changed = false;
+        vector<deque<Elem>> next_q(p+1);
         for (int i = 1; i <= p; ++i) {
-            int new_cnt = Expand(&blocks, i, s[i]);
-            cout << "cnt[" << i << "]: " << cnt[i] << " new_cnt: " << new_cnt << endl;
-            if (cnt[i] != new_cnt) {
-                cnt[i] = new_cnt;
-                changed = true;
+            while (!cur_q[i].empty()) {
+                auto cur = cur_q[i].front();
+                cur_q[i].pop_front();
+
+                for (auto& move : moves) {
+                    int r = cur.r + move.first;
+                    int c = cur.c + move.second;
+                    int step = cur.s + 1;
+
+                    if (r < 0 || n <= r)
+                        continue;
+                    if (c < 0 || m <= c)
+                        continue;
+                    if (grid[r][c] != '.')
+                        continue;
+                    grid[r][c] = '0'+i;
+
+                    if (step < s[i])
+                        cur_q[i].emplace_back(r, c, step);
+                    else
+                        next_q[i].emplace_back(r, c, 0);
+                }
             }
         }
-
-        for (auto& row : blocks) {
-            cout << row << endl;
-        }
-    } while(changed);
+        cur_q = next_q;
+        cont = any_of(cur_q.begin(), cur_q.end(), [](deque<Elem>& q){ return !q.empty(); });
+    } while(cont);
 
     for (int i = 1; i <= p; ++i) {
         int cnt = 0;
-        for (auto& row : blocks)
+        for (auto& row : grid)
             cnt += count(row.begin(), row.end(), i+'0');
         cout << cnt << " ";
     }
