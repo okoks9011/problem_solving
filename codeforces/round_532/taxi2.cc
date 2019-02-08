@@ -1,8 +1,10 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <cassert>
 
 using namespace std;
+
 struct Edge {
     int f = 0;
     int t = 0;
@@ -41,31 +43,19 @@ bool dfs(vector<vector<Edge>>& g, int cur, vector<Color>* color_ptr, vector<int>
     return false;
 };
 
-bool IsCycle(vector<vector<Edge>>& g, int n, int k) {
+vector<int> TopologicalSort(vector<vector<Edge>>& g, int n, int k) {
     vector<Color> color(n+1, kWhite);
     vector<int> order;
     for (int i = 1; i <= n; ++i) {
         if (dfs(g, i, &color, &order, k))
-            return true;
+            break;
     }
-    return false;
-}
-
-ostream& operator<<(ostream& os, Edge& e) {
-    os << "idx: " << e.ori_idx;
-    os << " from: " << e.f;
-    os << " to: " << e.t;
-    os << " c: " << e.w;
-    return os;
-}
-
-vector<int> TopologicalSort(vector<vector<Edge>>& g, int n, int k) {
-    vector<Color> color(n+1, kWhite);
-    vector<int> order;
-    for (int i = 1; i <= n; ++i)
-        dfs(g, i, &color, &order, k);
 
     return {order.rbegin(), order.rend()};
+}
+
+bool IsCycle(vector<vector<Edge>>& g, int n, int k) {
+    return TopologicalSort(g, n, k).size() != n;
 }
 
 int main() {
@@ -103,17 +93,11 @@ int main() {
     }
 
     auto t_sorted = TopologicalSort(g, n, k);
-    vector<int> loc(n+1, -1);
-    for (int i = 0; i < t_sorted.size(); ++i)
-        loc[t_sorted[i]] = i;
+    assert(t_sorted.size() == n);
 
-    int next = t_sorted.size();
-    for (int i = 1; i <= n; ++i) {
-        if (loc[i] == -1) {
-            loc[i] = next;
-            ++next;
-        }
-    }
+    vector<int> loc(n+1);
+    for (int i = 0; i < n; ++i)
+        loc[t_sorted[i]] = i;
 
     vector<int> result;
     for (int i = 0; i < m && edges[i].w <= k; ++i) {
