@@ -1,10 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <unordered_set>
 
 using namespace std;
-
 struct Edge {
     int f = 0;
     int t = 0;
@@ -86,45 +84,41 @@ int main() {
 
     sort(edges.begin(), edges.end());
 
-    int left = 0;
-    int right = m-1;
-    int k_idx = -1;
-    while (left <= right) {
-        int mid = left + (right - left) / 2;
-        if (IsCycle(g, n, edges[mid].w)) {
-            left = mid + 1;
-        } else {
-            k_idx = mid;
-            right = mid - 1;
+    int k = 0;
+    if (IsCycle(g, n, 0)) {
+        int left = 0;
+        int right = m-1;
+        int k_idx = -1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (IsCycle(g, n, edges[mid].w)) {
+                left = mid + 1;
+            } else {
+                k_idx = mid;
+                right = mid - 1;
+            }
         }
+
+        k = edges[k_idx].w;
     }
-    int k = edges[k_idx].w;
 
     auto t_sorted = TopologicalSort(g, n, k);
-    unordered_set<int> selected;
-    vector<int> order(n+1);
-    for (int i = 0; i < t_sorted.size(); ++i) {
-        int v = t_sorted[i];
-        selected.emplace(v);
-        order[v] = i;
+    vector<int> loc(n+1, -1);
+    for (int i = 0; i < t_sorted.size(); ++i)
+        loc[t_sorted[i]] = i;
+
+    int next = t_sorted.size();
+    for (int i = 1; i <= n; ++i) {
+        if (loc[i] == -1) {
+            loc[i] = next;
+            ++next;
+        }
     }
 
     vector<int> result;
-    int next = selected.size();
     for (int i = 0; i < m && edges[i].w <= k; ++i) {
         auto e = edges[i];
-        if (selected.find(e.f) == selected.end()) {
-            selected.emplace(e.f);
-            order[e.f] = next;
-            ++next;
-        }
-        if (selected.find(e.t) == selected.end()) {
-            selected.emplace(e.t);
-            order[e.t] = next;
-            ++next;
-        }
-
-        if (order[e.f] >= order[e.t])
+        if (loc[e.f] >= loc[e.t])
             result.emplace_back(e.ori_idx);
     }
 
