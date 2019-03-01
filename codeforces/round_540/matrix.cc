@@ -4,6 +4,16 @@
 
 using namespace std;
 
+void Insert(int i, int j, int v, vector<vector<int>>* result_ptr) {
+    auto& result = *result_ptr;
+    int n = result.size();
+
+    result[i][j] = v;
+    result[n-1-i][j] = v;
+    result[i][n-1-j] = v;
+    result[n-1-i][n-1-j] = v;
+}
+
 int main() {
     int n;
     cin >> n;
@@ -59,10 +69,7 @@ int main() {
         for (int j = 0; j < n/2; ++j) {
             int cur = candi[0].back();
             candi[0].pop_back();
-            result[i][j] = cur;
-            result[n-1-i][j] = cur;
-            result[i][n-1-j] = cur;
-            result[n-1-i][n-1-j] = cur;
+            Insert(i, j, cur, &result);
         }
     }
 
@@ -70,15 +77,13 @@ int main() {
         for (int i = 0; i < n/2; ++i) {
             int cur = candi[1].back();
             candi[1].pop_back();
-            result[i][n/2] = cur;
-            result[n-1-i][n/2] = cur;
+            Insert(i, n/2, cur, &result);
 
             cur = candi[1].back();
             candi[1].pop_back();
-            result[n/2][i] = cur;
-            result[n/2][n-1-i] = cur;
+            Insert(n/2, i, cur, &result);
         }
-        result[n/2][n/2] = candi[2].back();
+        Insert(n/2, n/2, candi[2].back(), &result);
     }
 
     cout << "YES" << endl;
