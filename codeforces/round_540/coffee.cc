@@ -6,15 +6,9 @@ using namespace std;
 
 bool PossibleToComplete(int m, int k, vector<int>& a) {
     long long acc = 0;
-    int order = 0;
-    for (int i = 0; i < a.size(); ++i) {
-        for (int j = i; j < i+k && j < a.size(); ++j) {
-            int add = max(0, a[j] - order);
-            acc += add;
-        }
-        i += k-1;
-        ++order;
-    }
+    for (int i = 0; i < a.size(); ++i)
+        acc += max(0, a[i] - i/k);
+
     return acc >= m;
 }
 
@@ -28,8 +22,7 @@ int main() {
     vector<int> a(n);
     for (auto& ai : a)
         cin >> ai;
-    sort(a.begin(), a.end());
-    reverse(a.begin(), a.end());
+    sort(a.rbegin(), a.rend());
 
     int left = 1;
     int right = n;
