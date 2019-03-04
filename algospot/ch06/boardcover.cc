@@ -6,7 +6,7 @@
 
 using namespace std;
 
-bool Place(int i, int j, const vector<pair<int, int>>& b, vector<string>* grid_ptr) {
+bool Place(int i, int j, const vector<pair<int, int>>& b, char c, vector<string>* grid_ptr) {
     auto& grid = *grid_ptr;
     for (auto& bi : b) {
         int new_i = i+bi.first;
@@ -14,23 +14,31 @@ bool Place(int i, int j, const vector<pair<int, int>>& b, vector<string>* grid_p
         if (new_i < 0 || grid.size() <= new_i ||
             new_j < 0 || grid[new_i].size() <= new_j)
             return false;
-        if (grid[new_i][new_j] == '#')
+        if (grid[new_i][new_j] == c)
             return false;
     }
 
     for (auto& bi : b)
-        grid[i+bi.first][j+bi.second] = '#';
+        grid[i+bi.first][j+bi.second] = c;
     return true;
 }
 
-void Unplace(int i, int j, const vector<pair<int, int>>& b, vector<string>* grid_ptr) {
+int CountPlace(vector<string>* grid_ptr) {
     auto& grid = *grid_ptr;
-    for (auto& bi : b)
-        grid[i+bi.first][j+bi.second] = '.';
-}
-
-int CountPlace(int remain, vector<string>* grid_ptr) {
-    if (remain == 0)
+    int pi = -1;
+    int pj = -1;
+    for (int i = 0; i < grid.size(); ++i) {
+        for (int j = 0; j < grid[0].size(); ++j) {
+            if (grid[i][j] != '#') {
+                pj = j;
+                pi = i;
+                break;
+            }
+        }
+        if (pj != -1)
+            break;
+    }
+    if (pi == -1 || pj == -1)
         return 1;
 
     vector<vector<pair<int, int>>> blocks{
@@ -40,28 +48,12 @@ int CountPlace(int remain, vector<string>* grid_ptr) {
         {{0, 0}, {1, 0}, {1, 1}}
     };
 
-    auto& grid = *grid_ptr;
-    int pi = -1;
-    int pj = -1;
-    for (int i = 0; i < grid.size(); ++i) {
-        for (int j = 0; j < grid[0].size(); ++j) {
-            if (grid[i][j] != '#') {
-                pj = j;
-                break;
-            }
-        }
-        if (pj != -1) {
-            pi = i;
-            break;
-        }
-    }
-
     int result = 0;
     for (auto& b : blocks) {
-        if (!Place(pi, pj, b, grid_ptr))
+        if (!Place(pi, pj, b, '#', grid_ptr))
             continue;
-        result += CountPlace(remain-1, grid_ptr);
-        Unplace(pi, pj, b, grid_ptr);
+        result += CountPlace(grid_ptr);
+        Place(pi, pj, b, '.', grid_ptr);
     }
 
     return result;
@@ -83,7 +75,7 @@ void Solve() {
         return;
     }
 
-    cout << CountPlace(cnt/3, &grid) << endl;
+    cout << CountPlace(&grid) << endl;
 }
 
 int main() {
