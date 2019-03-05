@@ -13,24 +13,16 @@ int CalMaxArea(const vector<int>& a, int left, int right) {
 
     int li = mid;
     int ri = mid+1;
-    int cur_height = numeric_limits<int>::max();
+    int height = numeric_limits<int>::max();
     while (left <= li || ri <= right) {
-        if (left <= li && ri <= right) {
-            if (a[li] < a[ri]) {
-                cur_height = min(cur_height, a[ri]);
-                ++ri;
-            } else {
-                cur_height = min(cur_height, a[li]);
-                --li;
-            }
-        } else if (left <= li) {
-            cur_height = min(cur_height, a[li]);
+        if (left <= li && (right < ri || a[ri] < a[li])) {
+            height = min(height, a[li]);
             --li;
-        } else {  // ri <= right
-            cur_height = min(cur_height, a[ri]);
+        } else {
+            height = min(height, a[ri]);
             ++ri;
         }
-        result = max(result, (ri-li-1)*cur_height);
+        result = max(result, (ri-li-1)*height);
     }
 
     return result;
