@@ -4,7 +4,7 @@ def main():
     h = random.randrange(1000)
     f = random.randrange(h)
     print('f: {}, h: {}'.format(f, h))
-    with open('input_file_3', 'w') as fin:
+    with open('fanmeeting_input_gen', 'w') as fin:
         fin.write('1\n')
         for _ in range(f):
             c = random.choice(['M', 'F'])
