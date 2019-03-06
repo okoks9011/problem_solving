@@ -1,7 +1,7 @@
 import random
 
 def main():
-    h = random.randrange(1000)
+    h = random.randrange(100000, 100001)
     f = random.randrange(h)
     print('f: {}, h: {}'.format(f, h))
     with open('fanmeeting_input_gen', 'w') as fin:
@@ -9,11 +9,9 @@ def main():
         for _ in range(f):
             c = random.choice(['M', 'F'])
             fin.write(c)
-            fin.write(' ')
         fin.write('\n')
         for _ in range(h):
             c = random.choice(['M', 'F'])
             fin.write(c)
-            fin.write(' ')
         fin.write('\n')
 main()
