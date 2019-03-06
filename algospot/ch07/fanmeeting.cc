@@ -21,6 +21,9 @@ vector<int> Multiply(const vector<int>& a, const vector<int>& b) {
             result[i+j] += a[i] * b[j];
         }
     }
+    while (result.size() >= 1 && result.back() == 0)
+        result.pop_back();
+
     return result;
 }
 
@@ -41,27 +44,23 @@ void Sub(vector<int>* to_ptr, const vector<int>& from) {
 }
 
 vector<int> Karatsuba(const vector<int>& a, const vector<int>& b) {
-    const int limit = 50;
-    if (a.size() <= limit || b.size() <= limit)
-        return Multiply(a, b);
+    if (a.empty() || b.empty())
+        return {};
 
     if (b.size() > a.size())
         return Karatsuba(b, a);
+
+    const int limit = 50;
+    if (a.size() <= limit)
+        return Multiply(a, b);
 
     int half = a.size() / 2;
     vector<int> a0(a.begin(), a.begin()+half);
     vector<int> a1(a.begin()+half, a.end());
 
-    if (b.size() < half) {
-        auto a0b = Karatsuba(a0, b);
-        auto a1b = Karatsuba(a1, b);
-        AddShift(&a0b, a1b, half);
-
-        return a0b;
-    }
-
-    vector<int> b0(b.begin(), b.begin()+half);
-    vector<int> b1(b.begin()+half, b.end());
+    int bhalf = min(half, static_cast<int>(b.size()));
+    vector<int> b0(b.begin(), b.begin()+bhalf);
+    vector<int> b1(b.begin()+bhalf, b.end());
 
     auto a0b0 = Karatsuba(a0, b0);
     auto a1b1 = Karatsuba(a1, b1);
@@ -74,8 +73,6 @@ vector<int> Karatsuba(const vector<int>& a, const vector<int>& b) {
 
     AddShift(&a0b0, a1b1, 2*half);
     AddShift(&a0b0, midterm, half);
-    while (a0b0.size() > 1 && a0b0.back() == 0)
-        a0b0.pop_back();
 
     return a0b0;
 }
