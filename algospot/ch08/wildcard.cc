@@ -7,9 +7,9 @@ using namespace std;
 
 int Matched(const string& pat, const string& target, int i, int j,
             vector<vector<int>>* dp_ptr) {
-    if (pat.size() <= i && target.size() <= j)
-        return 1;
-    if (pat.size() <= i || (target.size() <= j && pat[i] != '*'))
+    if (pat.size() <= i)
+        return target.size() <= j;
+    if (target.size() <= j && pat[i] != '*')
         return 0;
 
     auto& dp = *dp_ptr;
