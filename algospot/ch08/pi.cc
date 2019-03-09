@@ -11,28 +11,23 @@ using namespace std;
 int CalSegLevel(const string& s, int start, int end) {
     auto m = s.substr(start, end-start);
 
-    bool flag = true;
-    for (int i = 1; i < m.size() && flag; ++i) {
-        if (m[0] != m[i])
-            flag = false;
-    }
-    if (flag)
+    if (m == string(m.size(), m[0]))
         return 1;
 
-    flag = true;
-    for (int i = 2; i < m.size() && flag; ++i) {
+    bool alter = true;
+    for (int i = 2; i < m.size() && alter; ++i) {
         if (m[i%2] != m[i])
-            flag = false;
+            alter = false;
     }
-    if (flag)
+    if (alter)
         return 4;
 
-    flag = true;
-    for (int i = 1; i < m.size()-1 && flag; ++i) {
+    bool arith = true;
+    for (int i = 1; i < m.size()-1 && arith; ++i) {
         if (m[i]-m[i-1] != m[i+1]-m[i])
-            flag = false;
+            arith = false;
     }
-    if (flag) {
+    if (arith) {
         if (abs(m[0] - m[1]) == 1)
             return 2;
         else
