@@ -6,11 +6,11 @@ using namespace std;
 
 const int kInf = 987654321;
 
-int CalSegError(const vector<int>& a, int start, int end) {
+int CalSegError(const vector<int>& a, int lo, int hi) {
     int result = kInf;
-    for (int v = a[start]; v <= a[end-1]; ++v) {
+    for (int v = a[lo]; v <= a[hi]; ++v) {
         int error = 0;
-        for (int i = start; i < end; ++i)
+        for (int i = lo; i <= hi; ++i)
             error += (a[i]-v) * (a[i]-v);
         result = min(result, error);
     }
@@ -31,8 +31,8 @@ int CalMinError(const vector<int>& a, int s, int i,
         return result;
 
     result = kInf;
-    for (int j = i+1; j <= a.size(); ++j)
-        result = min(result, seg_error[i][j]+CalMinError(a, s-1, j, dp_ptr, seg_error));
+    for (int j = i; j < a.size(); ++j)
+        result = min(result, seg_error[i][j]+CalMinError(a, s-1, j+1, dp_ptr, seg_error));
     return result;
 }
 
@@ -45,9 +45,9 @@ void Solve() {
         cin >> ai;
     sort(a.begin(), a.end());
 
-    vector<vector<int>> seg_error(n+1, vector<int>(n+1));
+    vector<vector<int>> seg_error(n, vector<int>(n));
     for (int i = 0; i < a.size(); ++i) {
-        for (int j = i+1; j <= a.size(); ++j)
+        for (int j = i; j < a.size(); ++j)
             seg_error[i][j] = CalSegError(a, i, j);
     }
 
