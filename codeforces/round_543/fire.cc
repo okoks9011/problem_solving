@@ -26,7 +26,7 @@ int main() {
         int ci;
         cin >> ci;
         --ci;
-        if (!count(strong.begin(), strong.end(), ci))
+        if (find(strong.begin(), strong.end(), ci) == strong.end())
             ++result;
     }
 
