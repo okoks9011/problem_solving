@@ -21,8 +21,6 @@ vector<int> Multiply(const vector<int>& a, const vector<int>& b) {
             result[i+j] += a[i] * b[j];
         }
     }
-    while (result.size() >= 1 && result.back() == 0)
-        result.pop_back();
 
     return result;
 }
@@ -99,7 +97,7 @@ void Solve() {
     auto f = Convert(f_str);
 
     reverse(m.begin(), m.end());
-    auto mult = Karatsuba(f, m);
+    auto mult = Multiply(f, m);
     int margin = m.size() - 1;
     cout << count(mult.begin()+margin, mult.end()-margin, 0) << endl;
 }
@@ -133,8 +131,8 @@ void Test() {
 }
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+    // ios::sync_with_stdio(false);
+    // cin.tie(nullptr);
 
     int c;
     cin >> c;
