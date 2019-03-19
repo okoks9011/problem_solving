@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <memory>
-#include <cmath>
 
 using namespace std;
 
@@ -39,7 +38,7 @@ long long CountNode(const shared_ptr<Node>& cur, int n) {
         return 0;
 
     if (cur->is_leaf)
-        return static_cast<long long>(pow(2, n-cur->level));
+        return 1LL << (n-cur->level);
 
     return CountNode(cur->r_child, n) + CountNode(cur->b_child, n);
 }
@@ -54,8 +53,7 @@ long long Solve() {
         cin >> tmp;
         InsertNode(head, tmp);
     }
-
-    return static_cast<long long>(pow(2, n)) - CountNode(head, n);
+    return (1LL << n) - CountNode(head, n);
 }
 
 int main() {
