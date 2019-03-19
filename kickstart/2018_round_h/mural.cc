@@ -5,19 +5,6 @@
 
 using namespace std;
 
-int CalMaxLeastBeauty(const vector<int>& v) {
-    int m = (v.size()+1) / 2;
-    int sum = accumulate(v.begin(), v.begin()+m-1, 0);
-    int max_sum = 0;
-    for (int i = m-1; i < v.size(); ++i) {
-        sum += v[i];
-        max_sum = max(max_sum, sum);
-        sum -= v[i-m+1];
-    }
-
-    return max_sum;
-}
-
 int Solve() {
     int n;
     cin >> n;
@@ -29,7 +16,16 @@ int Solve() {
         v[i] = tmp - '0';
     }
 
-    return CalMaxLeastBeauty(v);
+    int m = (v.size()+1) / 2;
+    int sum = accumulate(v.begin(), v.begin()+m-1, 0);
+    int result = 0;
+    for (int i = m-1; i < v.size(); ++i) {
+        sum += v[i];
+        result = max(result, sum);
+        sum -= v[i-(m-1)];
+    }
+
+    return result;
 }
 
 int main() {
