@@ -22,25 +22,19 @@ void Solve() {
     int acc = 0;
     int result = 0;
     deque<int> q;
-    int i = 0;
     Seq s;
-    while (i < n) {
-        while (i < n && acc <= k) {
-            int cur = *s;
-            ++s;
-            ++i;
-            q.emplace_back(cur);
-            acc += cur;
-            if (acc == k)
-                ++result;
-        }
+    for (int i = 0; i < n; ++i) {
+        q.emplace_back(*s);
+        acc += *s;
+        ++s;
 
-        while (!q.empty() && k <= acc) {
+        while (!q.empty() && acc > k) {
             acc -= q.front();
             q.pop_front();
-            if (acc == k)
-                ++result;
         }
+
+        if (acc == k)
+            ++result;
     }
 
     cout << result << endl;
