@@ -12,20 +12,13 @@ int main() {
     for (auto& ci : c)
         cin >> ci;
 
-    int right_dist = 0;
-    for (int i = 0; i < n; ++i) {
-        if (c[i] != c.back()) {
-            right_dist = (n-1) - i;
-            break;
-        }
-    }
+    int left = 0;
+    while (c[left] == c.back())
+        ++left;
 
-    int left_dist = 0;
-    for (int i = n-1; i >= 0; --i) {
-        if (c[i] != c.front()) {
-            left_dist = i;
-            break;
-        }
-    }
-    cout << max(right_dist, left_dist) << endl;
+    int right = n - 1;
+    while (c[right] == c.front())
+        --right;
+
+    cout << max(n-1-left, right) << endl;
 }
