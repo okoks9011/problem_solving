@@ -8,13 +8,11 @@ bool CanFillFridge(int k, const vector<int>& a, int h) {
     vector<int> target(a.begin(), a.begin()+k);
     sort(target.rbegin(), target.rend());
 
-    for (int i = 0; i < target.size(); i += 2) {
-        h -= target[i];
-        if (h < 0)
-            return false;
-    }
+    long long sum = 0;
+    for (int i = 0; i < target.size(); i += 2)
+        sum += target[i];
 
-    return true;
+    return sum <= h;
 }
 
 int main() {
