@@ -2,6 +2,10 @@
 #include <random>
 #include <utility>
 
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
 using namespace std;
 
 typedef int KeyType;
@@ -123,13 +127,36 @@ shared_ptr<Node> FindKth(shared_ptr<Node> root, int k) {
         return FindKth(root->right, k-left_size-1);
 }
 
-int CountLessThan(shared_ptr<Node> root, KeyType key) {
-    if (!root)
-        return 0;
+void Solve() {
+    int n;
+    cin >> n;
 
-    if (root->key >= key)
-        return CountLessThan(root->left, key);
+    vector<int> m(n);
+    for (auto& mi : m)
+        cin >> mi;
+    reverse(m.begin(), m.end());
 
-    int left_size = (root->left ? root->left->size : 0);
-    return left_size + 1 + CountLessThan(root->right, key);
+    shared_ptr<Node> head;
+    for (int i = 1; i <= n; ++i)
+        head = Insert(head, make_shared<Node>(i));
+
+    vector<int> result;
+    for (auto& mi : m) {
+        auto cur = FindKth(head, head->size-mi);
+        result.emplace_back(cur->key);
+        head = Erase(head, cur->key);
+    }
+    reverse(result.begin(), result.end());
+
+    for (auto& ri : result)
+        cout << ri << " ";
+    cout << endl;
+}
+
+int main() {
+    int c;
+    cin >> c;
+
+    for (int i = 0; i < c; ++i)
+        Solve();
 }
