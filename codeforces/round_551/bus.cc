@@ -8,21 +8,16 @@ int main() {
     int n, t;
     cin >> n >> t;
 
-    vector<int> s(n);
-    vector<int> d(n);
-    for (int i = 0; i < n; ++i)
-        cin >> s[i] >> d[i];
-
-    vector<int> start(n);
+    vector<int> arr(n);
     for (int i = 0; i < n; ++i) {
-        start[i] = s[i];
-        if (start[i] >= t)
+        int si, di;
+        cin >> si >> di;
+        arr[i] = si;
+        if (arr[i] >= t)
             continue;
 
-        int diff = t - s[i];
-        start[i] += (diff/d[i]) * d[i];
-        if (diff % d[i])
-            start[i] += d[i];
+        int diff = t - si;
+        arr[i] += ((diff+di-1)/di) * di;
     }
-    cout << min_element(start.begin(), start.end()) - start.begin() + 1 << endl;
+    cout << min_element(arr.begin(), arr.end()) - arr.begin() + 1 << endl;
 }
