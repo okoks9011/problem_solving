@@ -1,45 +1,36 @@
 #include <iostream>
 #include <vector>
-#include <deque>
 #include <map>
+#include <deque>
+#include <numeric>
 #include <algorithm>
-#include <cassert>
 
 using namespace std;
 
 template <typename T>
-ostream& operator<<(ostream& os, vector<T> v) {
+ostream& operator<<(ostream& os, const vector<T>& v) {
     for (auto& vi : v)
-        os << vi << ", ";
+        cout << vi << ", ";
     return os;
 }
 
-void Solve() {
-    int n;
-    cin >> n;
+void Prepare(int n, map<vector<int>, int>* distance_ptr) {
+    auto& distance = *distance_ptr;
 
     vector<int> v(n);
-    for (auto& vi : v)
-        cin >> vi;
+    iota(v.begin(), v.end(), 0);
 
-    vector<int> goal(v);
-    sort(goal.begin(), goal.end());
-
-    map<vector<int>, int> distance{{v, 0}};
     deque<vector<int>> q{v};
+    distance[v] = 0;
     while (!q.empty()) {
         auto cur = q.front();
         q.pop_front();
-
-        if (cur == goal) {
-            cout << distance[cur] << endl;
-            return;
-        }
 
         for (int i = 0; i < n; ++i) {
             for (int j = i+1; j <= n; ++j) {
                 vector<int> next(cur);
                 reverse(next.begin()+i, next.begin()+j);
+
                 auto it = distance.find(next);
                 if (it != distance.end())
                     continue;
@@ -49,13 +40,33 @@ void Solve() {
             }
         }
     }
-    assert(false);
+}
+
+void Solve(map<vector<int>, int>& distance) {
+    int n;
+    cin >> n;
+
+    vector<int> v(n);
+    for (auto& vi : v)
+        cin >> vi;
+
+    vector<int> normal;
+    for (int i = 0; i < n; ++i) {
+        int smaller = count_if(v.begin(), v.end(), [&](int vj){ return vj < v[i]; });
+        normal.emplace_back(smaller);
+    }
+
+    cout << distance[normal] << endl;
 }
 
 int main() {
     int c;
     cin >> c;
 
+    map<vector<int>, int> distance;
+    for (int i = 1; i <= 8; ++i)
+        Prepare(i, &distance);
+
     for (int i = 0; i < c; ++i)
-        Solve();
+        Solve(distance);
 }
