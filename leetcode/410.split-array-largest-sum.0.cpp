@@ -1,4 +1,3 @@
-#include <numeric>
 #include <algorithm>
 #include <vector>
 
@@ -10,9 +9,6 @@ public:
         int cnt = 1;
         long long sum = 0;
         for (auto& ni : nums) {
-            if (ni > max_sum)
-                return false;
-
             if (sum + ni <= max_sum) {
                 sum += ni;
             } else {
@@ -27,7 +23,7 @@ public:
     }
 
     int splitArray(vector<int>& nums, int m) {
-        long long left = *min_element(nums.begin(), nums.end());
+        long long left = *max_element(nums.begin(), nums.end());
         long long right = 0;
         for (auto& ni : nums)
             right += ni;
