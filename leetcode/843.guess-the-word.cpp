@@ -31,8 +31,8 @@ class Solution {
     void findSecretWord(vector<string>& wordlist, Master& master) {
         vector<string> candi(wordlist);
         for (int i = 0; i < 10; ++i) {
-            shuffle(candi.begin(), candi.end(), rng);
-            string pick = candi.front();
+            uniform_int_distribution<> dis(0, candi.size()-1);
+            string pick = candi[dis(rng)];
             int cnt = master.guess(pick);
             if (cnt == 6)
                 break;
