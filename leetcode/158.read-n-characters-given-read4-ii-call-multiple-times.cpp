@@ -25,7 +25,7 @@ class Solution {
                     inter.emplace_back(tmp[i]);
             }
 
-            int write_cnt = min(static_cast<int>(inter.size()), min(4, n));
+            int write_cnt = min(static_cast<int>(inter.size()), n);
             if (write_cnt == 0)
                 break;
             for (int i = 0; i < write_cnt; ++i) {
