@@ -32,8 +32,9 @@ void InsertEdge(vector<vector<int>>* adj_ptr,
 
     for (int i = 0; i < v; ++i) {
         for (int j = 0; j < v; ++j) {
-            auto new_cost = min(adj[i][a]+adj[a][b]+adj[b][j], adj[i][b]+adj[b][a]+adj[a][j]);
+            auto new_cost = adj[i][a] + adj[a][b] + adj[b][j];
             adj[i][j] = min(adj[i][j], new_cost);
+            adj[j][i] = adj[i][j];
         }
     }
 }
