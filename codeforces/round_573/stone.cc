@@ -6,6 +6,9 @@
 using namespace std;
 
 int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
     int n;
     cin >> n;
 
@@ -18,7 +21,8 @@ int main() {
     for (auto& ai : a) {
         auto it = v.find(ai);
         if (it != v.end()) {
-            if (ai == 0 || remove) {
+            it = v.find(ai-1);
+            if (ai == 0 || remove || it != v.end()) {
                 cout << "cslnb" << endl;
                 return 0;
             } else {

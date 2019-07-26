@@ -21,9 +21,8 @@ int main() {
         cin >> pi;
 
     int result = 0;
-    for (int i = 0; i < m; ++i) {
-        ++result;
-
+    int i = 0;
+    while (i < m) {
         long long np = p[i];
         np -= (i+1);
         np /= k;
@@ -33,7 +32,7 @@ int main() {
 
         while (i < m && p[i] < np)
             ++i;
-        --i;
+        ++result;
     }
     cout << result << endl;
 }
