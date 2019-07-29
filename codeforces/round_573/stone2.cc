@@ -1,5 +1,5 @@
 #include <iostream>
-#include <set>
+#include <unordered_set>
 #include <vector>
 #include <algorithm>
 #include <chrono>
@@ -20,7 +20,10 @@ int main() {
     for (auto& ai : a)
         cin >> ai;
 
-    set<int> v;
+    unordered_set<int> v;
+    cerr << "max load factor: " << v.max_load_factor() << endl;
+    v.max_load_factor(0.25);
+    v.reserve(500);
     bool remove = false;
     for (auto& ai : a) {
         auto it = v.find(ai);
