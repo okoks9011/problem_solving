@@ -27,21 +27,16 @@ class Solution {
         for (auto& p : cnt)
             max_pq.emplace(p.second, p.first);
 
-        auto p = max_pq.top();
-        max_pq.pop();
-        string result(1, p.second);
-        if (p.first > 1)
-            max_pq.emplace(p.first-1, p.second);
+        string result;
         while (!max_pq.empty()) {
-            char last = result.back();
-            auto p = max_pq.top();
+            auto p1 = max_pq.top();
             max_pq.pop();
 
-            if (p.second != last) {
-                result += p.second;
-                --p.first;
-                if (p.first)
-                    max_pq.emplace(p);
+            if (result.empty() || result.back() != p1.second) {
+                result += p1.second;
+                --p1.first;
+                if (p1.first)
+                    max_pq.emplace(p1);
             } else {
                 if (max_pq.empty())
                     return "";
@@ -50,8 +45,8 @@ class Solution {
 
                 result += p2.second;
                 --p2.first;
-                if (p.first)
-                    max_pq.emplace(p);
+                if (p1.first)
+                    max_pq.emplace(p1);
                 if (p2.first)
                     max_pq.emplace(p2);
             }
