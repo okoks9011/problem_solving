@@ -1,4 +1,4 @@
-#include <multiset>
+#include <set>
 #include <utility>
 
 using namespace std;
@@ -11,15 +11,7 @@ class MyCalendarTwo {
     }
 
     bool checkOverlap(pair<int, int> t1, pair<int, int> t2) {
-        if (t1.first < t2.first && t2.second < t1.second)
-            return true;
-        if (t2.first < t1.first && t1.second < t2.second)
-            return true;
-        if (t1.first < t2.second && t2.first < t1.second)
-            return true;
-        if (t2.first < t1.second && t1.first < t2.second)
-            return true;
-        return false;
+        return t1.first < t2.second && t2.first < t1.second;
     }
 
     bool book(int start, int end) {
