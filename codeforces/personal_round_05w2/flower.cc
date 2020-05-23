@@ -17,20 +17,19 @@ int main() {
     int t, k;
     cin >> t >> k;
 
-    vector<vector<int>> dp(kMax+1, vector<int>(2));
-    dp[0][0] = 1;
+    vector<int> dp(kMax+1);
+    dp[0] = 1;
     for (int i = 1; i <= kMax; ++i) {
-        dp[i][0] = dp[i-1][0] + dp[i-1][1];
-        dp[i][0] %= kMod;
-        if (i - k >= 0) {
-            dp[i][1] = dp[i-k][0] + dp[i-k][1];
-            dp[i][1] %= kMod;
+        dp[i] = dp[i-1];
+        if (i >= k) {
+            dp[i] += dp[i-k];
+            dp[i] %= kMod;
         }
     }
 
     vector<int> acc(kMax+1, 0);
     for (int i = 1; i <= kMax; ++i) {
-        acc[i] = acc[i-1] + (dp[i][0] + dp[i][1]) % kMod;
+        acc[i] = acc[i-1] + dp[i];
         acc[i] %= kMod;
     }
 
