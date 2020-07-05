@@ -8,17 +8,16 @@ using namespace std;
 
 void Update(int pi, int bi, int total, vector<int>* h_ptr) {
     auto& h = *h_ptr;
-    int t = total + pi - 1;
+    int t = total + pi;
     h[t] = bi;
     bool is_or = true;
     while (t > 1) {
-        int nt = t / 2;
+        t /= 2;
         if (is_or)
-            h[nt] = h[2*nt] | h[2*nt+1];
+            h[t] = h[2*t] | h[2*t+1];
         else
-            h[nt] = h[2*nt] ^ h[2*nt+1];
+            h[t] = h[2*t] ^ h[2*t+1];
         is_or = !is_or;
-        t = nt;
     }
 }
 
@@ -30,11 +29,9 @@ int main() {
     int n, m;
     cin >> n >> m;
 
-    int total = 1;
-    for (int i = 0; i < n; ++i)
-        total *= 2;
+    int total = 1 << n;
 
-    vector<int> h(total*2, 0);
+    vector<int> h(total*2);
     for (int i = 0; i < total; ++i)
         cin >> h[total+i];
 
@@ -52,6 +49,7 @@ int main() {
     for (int i = 0; i < m; ++i) {
         int pi, bi;
         cin >> pi >> bi;
+        --pi;
         Update(pi, bi, total, &h);
         cout << h[1] << endl;
     }
