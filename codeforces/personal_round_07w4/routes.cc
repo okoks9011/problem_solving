@@ -19,13 +19,10 @@ int main() {
         cin >> u >> v;
         --u;
         --v;
-        if ((u == 0 && v == n-1) ||
-            (u == (n-1) && v == 0))
-            direct_rail = true;
         adjs[u][v] = true;
         adjs[v][u] = true;
     }
-    if (direct_rail) {
+    if (adjs[0][n-1] || adjs[n-1][0]) {
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j)
                 adjs[i][j] = !adjs[i][j];
