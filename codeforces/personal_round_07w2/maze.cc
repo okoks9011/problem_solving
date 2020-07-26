@@ -8,16 +8,16 @@
 using namespace std;
 
 
+const vector<pair<int, int>> ds{
+    {0, 1}, {1, 0}, {0, -1}, {-1, 0}
+};
+
 void bfs(vector<string>* grid_ptr) {
     auto& grid = *grid_ptr;
     int n = grid.size();
     int m = grid[0].size();
     if (grid[n-1][m-1] == '#')
         return;
-
-    vector<pair<int, int>> ds{
-        {0, 1}, {1, 0}, {0, -1}, {-1, 0}
-    };
 
     vector<pair<int, int>> q;
     grid[n-1][m-1] = '#';
@@ -47,9 +47,6 @@ bool CanBlockB(vector<string>* grid_ptr) {
     int n = grid.size();
     int m = grid[0].size();
 
-    vector<pair<int, int>> ds{
-        {0, 1}, {1, 0}, {0, -1}, {-1, 0}
-    };
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < m; ++j) {
             if (grid[i][j] != 'B')
