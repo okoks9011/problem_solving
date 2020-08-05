@@ -13,15 +13,13 @@ void Solve() {
 
     int i = 0;
     int j = 0;
-    int j_start = 0;
     for (int x = 0; x < k; ++x) {
-        grid[i][j%n] = 1;
+        grid[i][j] = 1;
         ++i;
-        ++j;
+        j = (j+1) % n;
         if (i >= n) {
             i = 0;
-            ++j_start;
-            j = j_start;
+            j = (j+1) % n;
         }
     }
 
