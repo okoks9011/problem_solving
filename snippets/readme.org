@@ -1,0 +1,11 @@
+* Code Snippet
+- [ ] dijkstra
+- [ ] floyd warshal
+- [ ] C++ random usage
+- [ ] C++ quick select usage
+- [ ] C++ next permutation usage
+
+* Data Structure Snippet
+- [X] disjoint set
+- [X] trie
+- [ ] fenwick tree
