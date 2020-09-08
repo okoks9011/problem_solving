@@ -1,9 +1,14 @@
-* Code Snippet
+* Algorithm Snippet
 - [ ] dijkstra
-- [ ] floyd warshal
+- [ ] floyd warshall
+- [ ] cycle detection
+- [ ] topological sort
+
+* Language Snippet
 - [ ] C++ random usage
 - [ ] C++ quick select usage
 - [ ] C++ next permutation usage
+- [ ] C++ enum usage
 
 * Data Structure Snippet
 - [X] disjoint set
