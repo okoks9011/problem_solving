@@ -9,6 +9,8 @@
 - [ ] C++ quick select usage
 - [ ] C++ next permutation usage
 - [ ] C++ enum usage
+- [ ] C++ tuple usage
+- [ ] C++ default constructor usage
 
 * Data Structure Snippet
 - [X] disjoint set
