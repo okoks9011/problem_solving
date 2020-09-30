@@ -6,6 +6,7 @@
 #include <utility>
 #include <cassert>
 #include <algorithm>
+#include <tuple>
 
 
 using namespace std;
@@ -20,12 +21,7 @@ struct Seq {
     Seq() = default;
 
     bool operator<(const Seq& other) const {
-        if (x == other.x) {
-            if (y == other.y)
-                return z < other.z;
-            return y < other.y;
-        }
-        return x < other.x;
+        return tie(x, y, z) < tie(other.x, other.y, other.z);
     }
 };
 

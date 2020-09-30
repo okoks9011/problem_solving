@@ -44,18 +44,20 @@ class Solution {
         while (!min_q.empty()) {
             auto e = min_q.top();
             min_q.pop();
-            if (e.i < 0 || m <= e.i || e.j < 0 || n <= e.j)
+            if (e.len > path[e.i][e.j])
                 continue;
-            if (e.len >= path[e.i][e.j])
-                continue;
-            path[e.i][e.j] = e.len;
             for (int x = 1; x <= 4; ++x) {
                 int nlen = e.len;
                 if (grid[e.i][e.j] != x)
                     ++nlen;
                 int ni = e.i + ds[x].first;
                 int nj = e.j + ds[x].second;
-                min_q.emplace(ni, nj, nlen);
+                if (ni < 0 || m <= ni || nj < 0 || n <= nj)
+                    continue;
+                if (path[ni][nj] > nlen) {
+                    path[ni][nj] = nlen;
+                    min_q.emplace(ni, nj, nlen);
+                }
             }
         }
         return path[m-1][n-1];
