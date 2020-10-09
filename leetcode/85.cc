@@ -22,7 +22,6 @@ class Solution {
                 auto& up = matrix[i-1][j];
                 int width = min(left.first+1, up.first);
                 int height = min(left.second, up.second+1);
-                
             }
         }
     }
