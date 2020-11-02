@@ -55,12 +55,6 @@ class Solution {
         }
 
         vector<vector<vector<int>>> dp(r, vector<vector<int>>(c, vector<int>(k+1, -1)));
-        auto result = CalCut(0, 0, k, &dp, apples);
-        for (int i = 0; i < r; ++i) {
-            for (int j = 0; j < c; ++j)
-                cout << apples[i][j] << " ";
-            cout << endl;
-        }
-        return result;
+        return CalCut(0, 0, k, &dp, apples);
     }
 };
