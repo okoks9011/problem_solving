@@ -2,7 +2,6 @@
 #include <utility>
 #include <cassert>
 #include <algorithm>
-#include <unordered_map>
 
 
 using namespace std;
@@ -10,28 +9,25 @@ using namespace std;
 
 class SnapshotArray {
   private:
-    unordered_map<int, int> buf;
     vector<vector<pair<int, int>>> store;
     int snap_cnt = 0;
 
   public:
-    SnapshotArray(int length) : store(length) {
-        for (int i = 0; i < length; ++i)
-            buf[i] = 0;
+    SnapshotArray(int length) : store(length, {make_pair(0, 0)}) {
     }
 
     void set(int index, int val) {
-        buf[index] = val;
+        auto& cur_store = store[index];
+        assert(!cur_store.empty());
+        if (cur_store.back().first == snap_cnt) {
+            cur_store.back().second = val;
+        } else {
+            if (cur_store.back().second != val)
+                cur_store.emplace_back(snap_cnt, val);
+        }
     }
 
     int snap() {
-        for (auto& p : buf) {
-            auto& cur_store = store[p.first];
-            int v = p.second;
-            if (cur_store.empty() || cur_store.back().second != v)
-                cur_store.emplace_back(snap_cnt, v);
-        }
-        buf.clear();
         return snap_cnt++;
     }
 
