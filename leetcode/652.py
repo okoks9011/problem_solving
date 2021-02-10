@@ -10,10 +10,10 @@ class Solution:
         visited = set()
         def get_string(node):
             if node is None:
-                return '()'
+                return '#'
 
             left_str, right_str = get_string(node.left), get_string(node.right)
-            cur_str = f'({left_str},{node.val},{right_str})'
+            cur_str = f'{left_str},{node.val},{right_str}'
             if cur_str in visited:
                 if cur_str not in result:
                     result[cur_str] = node
