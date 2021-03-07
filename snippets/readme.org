@@ -1,5 +1,6 @@
 * Algorithm Snippet
 - [ ] dijkstra
+- [ ] bellman ford
 - [ ] floyd warshall
 - [ ] cycle detection
 - [ ] topological sort
