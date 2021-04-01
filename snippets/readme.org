@@ -4,6 +4,10 @@
 - [ ] floyd warshall
 - [ ] cycle detection
 - [ ] topological sort
+- [ ] tarjan SCC
+- [ ] kruskal MST
+- [ ] prim MST
+- [ ] euler tour
 
 * Language Snippet
 - [ ] C++ random usage
@@ -16,4 +20,4 @@
 * Data Structure Snippet
 - [X] disjoint set
 - [X] trie
-- [ ] fenwick tree
+- [X] fenwick tree
