@@ -1,9 +1,11 @@
 * Algorithm Snippet
-- [ ] dijkstra
+- [X] dijkstra
 - [ ] bellman ford
 - [ ] floyd warshall
 - [ ] cycle detection
 - [ ] topological sort
+https://leetcode.com/problems/course-schedule-ii/
+
 - [ ] tarjan SCC
 - [ ] kruskal MST
 - [ ] prim MST
@@ -12,12 +14,17 @@
 * Language Snippet
 - [ ] C++ random usage
 - [ ] C++ quick select usage
-- [ ] C++ next permutation usage
+- [ ] C++ next permutations usage
 - [ ] C++ enum usage
 - [ ] C++ tuple usage
 - [ ] C++ default constructor usage
+
+- [ ] Python enum usage
+- [ ] Python cartesian product usage
+- [ ] Python permutations, combinations usages
 
 * Data Structure Snippet
 - [X] disjoint set
 - [X] trie
 - [X] fenwick tree
+  https://leetcode.com/problems/count-of-smaller-numbers-after-self/
