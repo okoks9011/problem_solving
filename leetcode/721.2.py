@@ -7,8 +7,6 @@ class DisjointSet:
         self.parent = list(range(n))
 
     def union(self, v, u):
-        if u == v:
-            return
         pv, pu = self.find(v), self.find(u)
         self.parent[pv] = pu
 
