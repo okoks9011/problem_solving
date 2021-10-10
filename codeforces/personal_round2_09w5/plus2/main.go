@@ -15,10 +15,13 @@ func solve() {
 	fmt.Fscan(in, &b)
 
 	var x int64 = 1
-	for x < n {
+	for x <= n {
 		if x%b == n%b {
 			fmt.Println("Yes")
 			return
+		}
+		if a == 1 {
+			break
 		}
 		x *= a
 	}
