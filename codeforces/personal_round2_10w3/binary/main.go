@@ -24,16 +24,16 @@ func solve() {
 		return
 	}
 
-	var result string
-	result += strings.Repeat("0", n0)
-	result += "0"
-	result += strings.Repeat("10", (n1-1)/2)
-	result += "1"
-	result += strings.Repeat("1", n2)
+	var result []string
+	result = append(result, strings.Repeat("0", n0))
+	result = append(result, "0")
+	result = append(result, strings.Repeat("10", (n1-1)/2))
+	result = append(result, "1")
+	result = append(result, strings.Repeat("1", n2))
 	if n1%2 == 0 && n1 > 0 {
-		result += "0"
+		result = append(result, "0")
 	}
-	fmt.Println(result)
+	fmt.Println(strings.Join(result, ""))
 }
 
 func main() {
