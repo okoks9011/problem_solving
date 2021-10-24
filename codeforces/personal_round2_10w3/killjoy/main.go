@@ -20,16 +20,20 @@ func solve() {
 
 	sum := 0
 	allEqual := true
+	hasKilljoy := false
 	for _, ai := range a {
 		if ai != x {
 			allEqual = false
+		}
+		if ai == x {
+			hasKilljoy = true
 		}
 		sum += ai
 	}
 
 	if allEqual {
 		fmt.Println(0)
-	} else if x*n == sum {
+	} else if hasKilljoy || x*n == sum {
 		fmt.Println(1)
 	} else {
 		fmt.Println(2)
