@@ -42,11 +42,11 @@ func main() {
 	}
 
 	result := make([]int, n-1)
-	for i := 0; i < n-1; i++ {
+	for i := range result {
 		result[i] = -1
 	}
 	prePut := 0
-	for i := 0; i < n-1; i++ {
+	for i := range result {
 		if edges[i][0] == triNode || edges[i][1] == triNode {
 			result[i] = prePut
 			prePut++
@@ -56,7 +56,7 @@ func main() {
 		}
 	}
 	curPut := 3
-	for i := 0; i < n-1; i++ {
+	for i := range result {
 		if result[i] == -1 {
 			result[i] = curPut
 			curPut++
